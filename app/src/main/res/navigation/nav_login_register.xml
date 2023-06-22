@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_login_register"
+    app:startDestination="@id/presentationFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.telinhas.autentication.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeActivity2"
+            app:destination="@id/homeActivity2"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_loginFragment_to_recoverEmailFragment"
+            app:destination="@id/recoverEmailFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_loginFragment_to_firstMain"
+            app:destination="@id/firstMain"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.telinhas.autentication.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/recoverEmailFragment"
+        android:name="com.example.telinhas.autentication.recover.RecoverEmailFragment"
+        android:label="fragment_recover_email"
+        tools:layout="@layout/fragment_recover_email" />
+    <fragment
+        android:id="@+id/presentationFragment"
+        android:name="com.example.telinhas.presentation.PresentationFragment"
+        android:label="fragment_presentation"
+        tools:layout="@layout/fragment_presentation" >
+        <action
+            android:id="@+id/action_presentationFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_presentationFragment_to_homeActivity2"
+            app:destination="@id/homeActivity2"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <activity
+        android:id="@+id/firstMain"
+        android:name="com.example.telinhas.weight_check.FirstMain"
+        android:label="activity_first_main"
+        tools:layout="@layout/activity_first_main" />
+    <activity
+        android:id="@+id/homeActivity2"
+        android:name="com.example.telinhas.home.HomeActivity"
+        android:label="activity_home"
+        tools:layout="@layout/activity_home" />
+</navigation>

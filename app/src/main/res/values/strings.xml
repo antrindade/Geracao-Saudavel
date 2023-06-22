@@ -1,0 +1,68 @@
+<resources>
+    <string name="app_name">Geração Saudável</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="title_presentation">Seja benvindo! \nViver bem, é viver saudável</string>
+    <string name="title_login">Login</string>
+    <string name="title_button_login">Login</string>
+    <string name="title_singUp">SignUp</string>
+    <string name="title_email_recover">Digite o email cadastrado</string>
+    <string name="title_home">Hoje você ainda tem que beber:</string>
+    <string name="title_reminder">Lembrete</string>
+    <string name="title_weight">Qual seu peso ?</string>
+    <string name="sign_up">Se cadastre !</string>
+    <string name="sentence_sing_up">Não tem conta?</string>
+
+    <string name="subtitle_presentation">Esse é um novo aplicativo\nFeito diretamente para você!\nVenha junto conosco!</string>
+    <string name="subtitle_hour">12:00 PM</string>
+    <string name="subtitle_result_1">Você tem que beber cerca de:</string>
+    <string name="subtitle_result_ml">300ml por dia</string>
+    <string name="subtitle_result_2">Mas lembrando, sempre é bom passar em um especialista! \n Podemos determinar lembretes para ajudar você da melhor forma</string>
+    <string name="subtitle_weight">Informe se peso. Precisamos saber ele para que possamos passar uma quantidade boa para você</string>
+
+    <string name="hint_email">Email</string>
+    <string name="hint_name">Nome</string>
+    <string name="hint_password">Password</string>
+
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="name">Nome</string>
+    <string name="reset_password">Esqueceu a senha ? Redefinir</string>
+
+    <string name="button_next">Próximo</string>
+    <string name="button_facebook">Facebook</string>
+    <string name="button_google">Google</string>
+    <string name="button_send">Enviar</string>
+    <string name="button_sing_up">SingUp</string>
+    <string name="text_btn_undo">Desfazer ultima dose</string>
+    <string name="button_title_set_reminder">Definir lembrete</string>
+    <string name="button_ready">Pronto</string>
+    <string name="button_exit">Sair</string>
+
+    <string name="woman_drinking_water">Imagem de uma mulher bebendo água</string>
+    <string name="image_top_left">imagem de um círculo decorativo no topo a esquerda</string>
+    <string name="image_top_right">imagem de um círculo decorativo no topo a direita</string>
+    <string name="image_button_left">imagem de um círculo decorativo no fundo a esquerda</string>
+    <string name="image_button_right">imagem de um círculo decorativo no fundo a direita</string>
+
+    <string name="quantity_ml">3000 ml</string>
+    <string name="drink_water">Beber água</string>
+
+
+
+
+
+
+
+
+
+
+
+    <string-array name="glassOfWater_array">
+        <item>250 ml</item>
+        <item>500 ml</item>
+        <item>750 ml</item>
+        <item>1000 ml</item>
+    </string-array>
+</resources>
