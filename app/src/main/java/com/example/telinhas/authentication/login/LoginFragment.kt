@@ -1,4 +1,4 @@
-package com.example.telinhas.autentication.register
+package com.example.telinhas.authentication.login
 
 import android.content.Context
 import android.graphics.Color
@@ -10,29 +10,35 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.telinhas.autentication.viewmodel.RegisterViewModel
+import com.example.telinhas.R
+import com.example.telinhas.authentication.viewmodel.LoginViewModel
 import com.example.telinhas.constants.GenerationConstants
-import com.example.telinhas.databinding.FragmentRegisterBinding
+import com.example.telinhas.databinding.FragmentLoginBinding
 import com.google.android.material.snackbar.Snackbar
 
+class LoginFragment : Fragment() {
 
-class RegisterFragment : Fragment() {
-
-    private lateinit var binding: FragmentRegisterBinding
-    private lateinit var viewModel: RegisterViewModel
+    private lateinit var binding: FragmentLoginBinding
+    private lateinit var viewModel: LoginViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
 
-        binding = FragmentRegisterBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
+        binding = FragmentLoginBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
-        binding.buttonSignUp.setOnClickListener {view ->
+        binding.buttonLogin.setOnClickListener { view ->
             closeKeyboard()
-            handleSave(view)
+            handleLogin(view)
+        }
+
+        binding.textViewRegister.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+
+        binding.textViewRecovery.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_recoverEmailFragment)
         }
 
         return binding.root
@@ -42,6 +48,7 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observer(view)
+
     }
 
     private fun observer(view: View) {
@@ -50,21 +57,25 @@ class RegisterFragment : Fragment() {
         }
         viewModel.authentication.observe(viewLifecycleOwner) {
             if (it) {
-                message(view, GenerationConstants.Success.SUCCESSFULLY_REGISTERED, Color.GREEN)
-                findNavController().popBackStack()
+                message(view, GenerationConstants.Success.SUCCESSFULLY_LOGGED_IN, Color.GREEN)
+                findNavController().navigate(R.id.action_loginFragment_to_homeActivity2)
+                activity?.finish()
+            }else {
+                message(view, GenerationConstants.Success.SUCCESSFULLY_LOGGED_IN, Color.GREEN)
+                findNavController().navigate(R.id.action_loginFragment_to_firstMain)
+                activity?.finish()
             }
         }
     }
 
-    private fun handleSave(view: View) {
-        val name = binding.editTextName.text.toString()
+    private fun handleLogin(view: View) {
         val email = binding.editTextEmail.text.toString()
         val password = binding.editTextPassword.text.toString()
 
-        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (email.isEmpty() || password.isEmpty()) {
             message(view, GenerationConstants.Exception.EMPTY_FIELD, Color.RED)
         } else {
-            viewModel.verifyRegister(name, email, password)
+            viewModel.verifyLogin(email, password)
         }
     }
 

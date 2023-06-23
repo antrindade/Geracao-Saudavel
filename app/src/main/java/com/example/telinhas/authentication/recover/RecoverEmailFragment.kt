@@ -1,4 +1,4 @@
-package com.example.telinhas.autentication.recover
+package com.example.telinhas.authentication.recover
 
 import android.content.Context
 import android.graphics.Color
@@ -10,7 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.telinhas.autentication.viewmodel.RecoverViewModel
+import com.example.telinhas.authentication.viewmodel.RecoverViewModel
 import com.example.telinhas.constants.GenerationConstants
 import com.example.telinhas.databinding.FragmentRecoverEmailBinding
 import com.google.android.material.snackbar.Snackbar

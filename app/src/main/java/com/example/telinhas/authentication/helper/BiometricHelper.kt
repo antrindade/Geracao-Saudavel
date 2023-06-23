@@ -1,4 +1,4 @@
-package com.example.telinhas.autentication.helper
+package com.example.telinhas.authentication.helper
 
 import android.content.Context
 import androidx.biometric.BiometricManager

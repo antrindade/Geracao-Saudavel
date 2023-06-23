@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.telinhas.autentication.login.LoginFragment"
+        android:name="com.example.telinhas.authentication.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -34,12 +34,12 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.telinhas.autentication.register.RegisterFragment"
+        android:name="com.example.telinhas.authentication.register.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
     <fragment
         android:id="@+id/recoverEmailFragment"
-        android:name="com.example.telinhas.autentication.recover.RecoverEmailFragment"
+        android:name="com.example.telinhas.authentication.recover.RecoverEmailFragment"
         android:label="fragment_recover_email"
         tools:layout="@layout/fragment_recover_email" />
     <fragment

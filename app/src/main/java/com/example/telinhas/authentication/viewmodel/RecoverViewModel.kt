@@ -1,4 +1,4 @@
-package com.example.telinhas.autentication.viewmodel
+package com.example.telinhas.authentication.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

@@ -1,4 +1,4 @@
-package com.example.telinhas.autentication
+package com.example.telinhas.authentication
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

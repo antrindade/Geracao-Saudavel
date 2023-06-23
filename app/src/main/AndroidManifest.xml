@@ -24,7 +24,7 @@
             android:name=".home.HomeActivity"
             android:exported="false"/>
         <activity
-            android:name=".autentication.MainActivity"
+            android:name=".authentication.MainActivity"
             android:exported="true">
 
 
