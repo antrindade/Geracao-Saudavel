@@ -1,34 +1,26 @@
 package com.example.telinhas.authentication.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.telinhas.constants.GenerationConstants
-import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.telinhas.domain.usecase.RecoverAuthenticationUseCase
+import com.example.telinhas.state.DataState
+import kotlinx.coroutines.launch
 
-class RecoverViewModel(application: Application) : AndroidViewModel(application) {
+class RecoverViewModel(
+    private val recoverAuthUseCase: RecoverAuthenticationUseCase
+) : ViewModel() {
 
-    private val auth = FirebaseAuth.getInstance()
-    private var _message = MutableLiveData<String>()
-    val message: LiveData<String> = _message
-    private var _authentication = MutableLiveData<Boolean>()
-    val authentication: LiveData<Boolean> = _authentication
+    private var _authentication = MutableLiveData<DataState<String>>()
+    val authentication: LiveData<DataState<String>> = _authentication
 
     fun verify(email: String) {
-
-            auth.sendPasswordResetEmail(email).addOnSuccessListener {
-                _authentication.value = true
-            }.addOnFailureListener { exception ->
-                _message.value = when (exception) {
-                    is FirebaseAuthInvalidCredentialsException -> GenerationConstants.Exception.ALREADY_REGISTERED
-                    is FirebaseNetworkException -> GenerationConstants.Exception.NO_CONNECTION
-                    else -> GenerationConstants.Exception.ERROR
+        viewModelScope.launch {
+            recoverAuthUseCase.invoke(email)
+                .collect {
+                    _authentication.postValue(it)
                 }
-
         }
-
     }
 }

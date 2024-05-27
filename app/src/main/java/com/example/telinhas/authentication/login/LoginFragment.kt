@@ -2,35 +2,71 @@ package com.example.telinhas.authentication.login
 
 import android.content.Context
 import android.graphics.Color
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.telinhas.R
+import com.example.telinhas.app.Binding
 import com.example.telinhas.authentication.viewmodel.LoginViewModel
 import com.example.telinhas.constants.GenerationConstants
 import com.example.telinhas.databinding.FragmentLoginBinding
+import com.example.telinhas.enum.ExceptionEnum
+import com.example.telinhas.state.DataState
+import com.example.telinhas.ui.BaseFragment
 import com.google.android.material.snackbar.Snackbar
+import org.koin.android.ext.android.inject
 
-class LoginFragment : Fragment() {
+@Binding(FragmentLoginBinding::class)
+class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
-    private lateinit var binding: FragmentLoginBinding
-    private lateinit var viewModel: LoginViewModel
+    private val viewModel: LoginViewModel by inject()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
-    ): View {
+    override fun setup() {
+        this.setView()
+        this.observer()
+        this.listener()
+    }
 
-        binding = FragmentLoginBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+    private fun setView() {
+        setStatusBarColor(R.color.white)
+    }
 
-        binding.buttonLogin.setOnClickListener { view ->
+    private fun observer() {
+        viewModel.message.observe(viewLifecycleOwner) {
+            message(it, Color.RED)
+        }
+        viewModel.authentication.observe(viewLifecycleOwner) { uiState ->
+            uiState ?: return@observe
+
+            when(uiState) {
+                is DataState.Loading -> {
+
+                }
+                is DataState.ErrorMessage -> {
+                   when(uiState.error) {
+                        ExceptionEnum.ERROR_INVALID_EMAIL.name -> message(ExceptionEnum.ERROR_INVALID_EMAIL.message, R.color.red)
+                        ExceptionEnum.ERROR_WRONG_PASSWORD.name -> message(ExceptionEnum.ERROR_WRONG_PASSWORD.message, R.color.red)
+                        ExceptionEnum.ERROR_USER_NOT_FOUND.name -> message(ExceptionEnum.ERROR_USER_NOT_FOUND.message, R.color.red)
+                    }
+                }
+                is DataState.Success -> {
+                    if (uiState.data) {
+                        message(GenerationConstants.Success.SUCCESSFULLY_LOGGED_IN, Color.GREEN)
+                        findNavController().navigate(R.id.action_loginFragment_to_homeActivity2)
+                        activity?.finish()
+                    }else {
+                        message(GenerationConstants.Success.SUCCESSFULLY_LOGGED_IN, Color.GREEN)
+                        findNavController().navigate(R.id.action_loginFragment_to_firstMain)
+                        activity?.finish()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun listener() {
+        binding.buttonLogin.setOnClickListener {
             closeKeyboard()
-            handleLogin(view)
+            handleLogin()
         }
 
         binding.textViewRegister.setOnClickListener {
@@ -40,40 +76,14 @@ class LoginFragment : Fragment() {
         binding.textViewRecovery.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_recoverEmailFragment)
         }
-
-        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        observer(view)
-
-    }
-
-    private fun observer(view: View) {
-        viewModel.message.observe(viewLifecycleOwner) {
-            message(view, it, Color.RED)
-        }
-        viewModel.authentication.observe(viewLifecycleOwner) {
-            if (it) {
-                message(view, GenerationConstants.Success.SUCCESSFULLY_LOGGED_IN, Color.GREEN)
-                findNavController().navigate(R.id.action_loginFragment_to_homeActivity2)
-                activity?.finish()
-            }else {
-                message(view, GenerationConstants.Success.SUCCESSFULLY_LOGGED_IN, Color.GREEN)
-                findNavController().navigate(R.id.action_loginFragment_to_firstMain)
-                activity?.finish()
-            }
-        }
-    }
-
-    private fun handleLogin(view: View) {
+    private fun handleLogin() {
         val email = binding.editTextEmail.text.toString()
         val password = binding.editTextPassword.text.toString()
 
         if (email.isEmpty() || password.isEmpty()) {
-            message(view, GenerationConstants.Exception.EMPTY_FIELD, Color.RED)
+            message(GenerationConstants.Exception.EMPTY_FIELD, Color.RED)
         } else {
             viewModel.verifyLogin(email, password)
         }
@@ -85,10 +95,14 @@ class LoginFragment : Fragment() {
         input.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
-    private fun message(view: View, msg: String, color: Int) {
-        val snack = Snackbar.make(view, msg, Snackbar.LENGTH_SHORT)
+    private fun message(msg: String, color: Int) {
+        val snack = Snackbar.make(requireView(), msg, Snackbar.LENGTH_SHORT)
         snack.setBackgroundTint(color)
         snack.setTextColor(Color.WHITE)
         snack.show()
+    }
+
+    companion object {
+        fun newInstance() = LoginFragment()
     }
 }

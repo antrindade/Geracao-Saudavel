@@ -1,39 +1,50 @@
 package com.example.telinhas.presentation
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.telinhas.R
+import com.example.telinhas.app.Binding
+import com.example.telinhas.authentication.login.LoginFragment
 import com.example.telinhas.constants.GenerationConstants
+import com.example.telinhas.databinding.FragmentLoginBinding
 import com.example.telinhas.databinding.FragmentPresentationBinding
 import com.example.telinhas.presentation.viewmodel.PresentationViewModel
+import com.example.telinhas.ui.BaseFragment
+import org.koin.android.ext.android.inject
 
-class PresentationFragment : Fragment() {
+@Binding(FragmentPresentationBinding::class)
+class PresentationFragment : BaseFragment<FragmentPresentationBinding>() {
 
-    private lateinit var binding: FragmentPresentationBinding
-    private lateinit var viewModel: PresentationViewModel
+    private val viewModel: PresentationViewModel by inject()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
-    ): View {
-        binding = FragmentPresentationBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this)[PresentationViewModel::class.java]
+    override fun setup() {
+        this.setView()
+        this.observe()
+        this.listener()
+        this.verifyAuthentication()
+    }
 
+    private fun setView() {
+        setStatusBarColor(R.color.white)
+    }
+
+    private fun observe() {
+        viewModel.loggedUser.observe(viewLifecycleOwner) { authentication ->
+            if (authentication) {
+                biometricAuthentication()
+            }
+        }
+    }
+
+    private fun listener() {
         binding.buttonNext.setOnClickListener {
             findNavController().navigate(R.id.action_presentationFragment_to_loginFragment)
         }
+    }
 
+    private fun verifyAuthentication() {
         viewModel.verifyAuthentication()
-
-        observe()
-
-        return binding.root
     }
 
     private fun biometricAuthentication() {
@@ -56,11 +67,7 @@ class PresentationFragment : Fragment() {
         bio.authenticate(info)
     }
 
-    private fun observe() {
-        viewModel.loggedUser.observe(viewLifecycleOwner) { authentication ->
-            if (authentication) {
-                biometricAuthentication()
-            }
-        }
+    companion object {
+        fun newInstance() = PresentationFragment()
     }
 }

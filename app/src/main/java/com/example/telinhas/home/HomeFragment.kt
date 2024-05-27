@@ -9,22 +9,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.telinhas.R
+import com.example.telinhas.app.Binding
 import com.example.telinhas.constants.GenerationConstants
 import com.example.telinhas.databinding.FragmentHomeBinding
 import com.example.telinhas.home.viewmodel.HomeViewModel
 import com.example.telinhas.repository.UserPreferences
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import org.koin.android.ext.android.inject
 
+@Binding(FragmentHomeBinding::class)
 class HomeFragment : Fragment() {
 
-    private lateinit var binding: FragmentHomeBinding
-    private lateinit var viewModel: HomeViewModel
+    companion object {
+        fun newInstance() = HomeFragment()
+    }
+
+    private val viewModel: HomeViewModel by inject()
+    private val binding: FragmentHomeBinding by lazy {
+        FragmentHomeBinding.inflate(layoutInflater)
+    }
+
     private val db = FirebaseFirestore.getInstance()
     private var quantityMl = 0
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,8 +42,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
 
-        binding = FragmentHomeBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         binding.buttonDrink.setOnClickListener {
             animateUp()
